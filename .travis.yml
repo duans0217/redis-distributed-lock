@@ -1,0 +1,23 @@
+language: java
+jdk:
+- oraclejdk8
+before_deploy:
+- mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep
+  -v '\[')
+before_install:
+- echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+- echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+install:
+- mvn --settings .maven.xml install -DskipTests=true -Dgpg.skip -Dadditionalparam=-Xdoclint:none
+  -Dmaven.javadoc.skip=true -B -V
+script:
+- mvn clean deploy --settings .maven.xml -DskipTests=true -Dadditionalparam=-Xdoclint:none
+  -DcreateChecksum=true -B -U -Preleasetravis encrypt MAVEN_REPO_USERNAME=wf2311 --add
+  travis encrypt MAVEN_REPO_PASSWORD=ST4567st --add travis encrypt MAVEN_GPG_PASSPHRASE=GPG4567st
+  --add
+env:
+  global:
+  - secure: UwDI918lqjYIO1CR5+X7lW8GOkicuc7/NAMWr5gfFcIme7LwxI4dYhKQsfJjPqyXJIcWhU66L95vcqlzTZEKIR3RRpj0s2WV/KaY/3s8AH6D3ZBVHo78EH3IzuwXT9ndLdgO9AHcNgcNrK7wDHPA45s4h+bUqTuJqlPKcobd5XWXaYWdxvVkIDz4/FTLogd7/6UevhVYEbzjz86VjXe8mj0bRfF7r7ceIEyTzSpzp+AoCIbWMCsTT+8Fi6YnpiWGX8smaVIivFl/6Mvj69CxRpWUXvYGfIyM2bajazcnHA+wPQl5l6EW7NGF01he62FgXeTIvBiJveD+KN6a1ghajy2F60Fk8860nURZX9T2JUEBu9lt7BeYFcCMmT8qqEkAgAjKAtful7QGd7af9d1R3yugl3cvUKAyr1dihyEdrgJzlbs9oD/t7lnQMWqHJjGjQjdV5nkKnL303/XZomCbC63B1Lwmug8RrEAyw/h6TpItsGNQYWbq66uhIo6rnGSgmlNcpdmx6Dt58lJw+0K/shC4Felt5w0uUzRLR8zJrbEc/LquSd2Ko2oB14zDLyGopzQ1fL5+a7GWkF6RdJdL4wpIAvPovO3UCZJbWUz4EuuM3UwQVLZSkFYmmJNJJiWeruD2JqE1AiIgmKtND2a9FFtMyTVtDcEBxijk5LMA/Qk=
+  - secure: X9p6X75wzQjqGvmCAeL16hdwi8F2LG+Lz9smoFsEYtnkBzCZYdi+O11B7cw7LMNqJ7LzOikrBhBNrznxd5S7I0VkD3xybyiG0NCtM0LWu6fd10DY9JAPyn9/wCL9beKAV2vylNfnaT0Yze2LN4OA6Mk/fUUZcShvfityoj27jgqXp5hHIV6eU2gidEsB1czg0Fe94cdZJcd/CQHuVM9nAhnrFTH18QI2TIWDiWONsRvMTX3kTIDyTNiAWaQRrCRjgLq25atmorAvECDTYrDeuvKgWZ2tBE6LWotvDLyYkDg8HS9C0Q34ukJdtBGwaQQHbSW2DPo7krHuG4ksj10XWyB7GQxjtbsbys/dPBhG1pWFLoOKC727XNAJzwYvbPtWVuU17nQRbf5Yl78RD5QXXT+kI/XjQdSyGwBybYTrewsBcZNDVhpgtzG5HSMsNcXA/xg+ZzBNeusAFdRz57e2jKW4Ykp/1jrWziN2zuIEmgKcEfzmUjkacE0Sk2csaUn7j5zgGkVWWQWsdVSfh510HoMSE9IZThSTprBZgpeyj3ioJB063R3M9yf+4meLUm6NdNWQ1TNuHNHKTVGXAB50BmSV35kS+3KmO/EaBsSkzrmRMaud3CHWS7mS3LB68o5sg7Qm48xMv6BcFtmvIDsAyGm8qEN31a+t5gn2btMx3i8=
+  - secure: AFbH25qjQLGwluenGJscESY3eNe0PdIcwB61SNraX07ZzVZ8YSg9D51nIC2ymo32Yxyzm4WTo3iIQTRYLlHPdNjbIyjvVkRaB5cLhviX4Hm2qgZEqBsldXMlzIA958aLcKcObF+hM45PnX8QAS4w2RENYzhg1P8jHMO8k56DAerla+sGEuaMq1v3k82KQQVnyAChRWUPHZic13TrCh3mJjai7n24hW2t2a0+TegoWizLR0iTesix2E0cong1XCG1b75TO/Nt/WKnqugtmKjTPGMOBNJ33OdRPRPW5X1HzdRr7rn7S6QQPv+62kLQIcwv85S6S9yBI2jvD1bOmijm0w+s7fF3pwhFY05NVZDHaqj6L/26mUyYY9/zZyFBfxtLGz/GxYwV3sMNFzayhiKvhr/Dc75XKH0DU05BpK2ey8NLmikGPy++oEbUZUb/is5MFs3a5g/EzSEQl1RVMgJKeEhGsit6LiiAqRfYl0H0o11YGHhw7xti7gkZjN0z25aBWokp5R1AoC6VdW0YIM5/M/pF8PAL37J3N5SPyapWGyeKQ1GJKbbAm2Ysfd72uITTKHMZHyXUhgcUIGRtORIEigE+5Fkm8h3lKYK3YT6HOjt3Eu1Hil0TDVgak+uWlVRuMPVgzQ25kH+b9BWL2tu+bYu+L1Nx1TMOwUd6hvgwRe0=

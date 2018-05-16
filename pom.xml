@@ -7,7 +7,7 @@
     <groupId>com.wf2311</groupId>
     <artifactId>redis-distributed-lock</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
         <module>redis-distributed-lock-common</module>
         <module>redis-distributed-lock-spring</module>
@@ -53,7 +53,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
@@ -70,7 +69,6 @@
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
-                        <phase>install</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
