@@ -1,21 +1,16 @@
 language: java
 jdk:
-- oraclejdk8
+  - oraclejdk8
 before_deploy:
-- mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
-- export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep
-  -v '\[')
+  - mvn help:evaluate -N -Dexpression=project.version|grep -v '\['
+  - export project_version=$(mvn help:evaluate -N -Dexpression=project.version|grep -v '\[')
 before_install:
-- echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
-- echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+  - echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+  - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
 install:
-- mvn --settings .maven.xml install -DskipTests=true -Dgpg.skip -Dadditionalparam=-Xdoclint:none
-  -Dmaven.javadoc.skip=true -B -V
+  - mvn --settings .maven.xml install -DskipTests=true -Dgpg.skip -Dadditionalparam=-Xdoclint:none -Dmaven.javadoc.skip=true -B -V
 script:
-- mvn clean deploy --settings .maven.xml -DskipTests=true -Dadditionalparam=-Xdoclint:none
-  -DcreateChecksum=true -B -U -Preleasetravis encrypt MAVEN_REPO_USERNAME=wf2311 --add
-  travis encrypt MAVEN_REPO_PASSWORD=ST4567st --add travis encrypt MAVEN_GPG_PASSPHRASE=GPG4567st
-  --add
+  - mvn clean deploy --settings .maven.xml -DskipTests=true -Dadditionalparam=-Xdoclint:none -DcreateChecksum=true -B -U -Prelease
 env:
   global:
   - secure: UwDI918lqjYIO1CR5+X7lW8GOkicuc7/NAMWr5gfFcIme7LwxI4dYhKQsfJjPqyXJIcWhU66L95vcqlzTZEKIR3RRpj0s2WV/KaY/3s8AH6D3ZBVHo78EH3IzuwXT9ndLdgO9AHcNgcNrK7wDHPA45s4h+bUqTuJqlPKcobd5XWXaYWdxvVkIDz4/FTLogd7/6UevhVYEbzjz86VjXe8mj0bRfF7r7ceIEyTzSpzp+AoCIbWMCsTT+8Fi6YnpiWGX8smaVIivFl/6Mvj69CxRpWUXvYGfIyM2bajazcnHA+wPQl5l6EW7NGF01he62FgXeTIvBiJveD+KN6a1ghajy2F60Fk8860nURZX9T2JUEBu9lt7BeYFcCMmT8qqEkAgAjKAtful7QGd7af9d1R3yugl3cvUKAyr1dihyEdrgJzlbs9oD/t7lnQMWqHJjGjQjdV5nkKnL303/XZomCbC63B1Lwmug8RrEAyw/h6TpItsGNQYWbq66uhIo6rnGSgmlNcpdmx6Dt58lJw+0K/shC4Felt5w0uUzRLR8zJrbEc/LquSd2Ko2oB14zDLyGopzQ1fL5+a7GWkF6RdJdL4wpIAvPovO3UCZJbWUz4EuuM3UwQVLZSkFYmmJNJJiWeruD2JqE1AiIgmKtND2a9FFtMyTVtDcEBxijk5LMA/Qk=
