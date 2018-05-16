@@ -5,21 +5,13 @@
     <parent>
         <artifactId>redis-distributed-lock</artifactId>
         <groupId>com.wf2311</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-boot-starter-redis-distributed-lock</artifactId>
 
-    <!--<parent>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
-        <!--<version>1.5.3.RELEASE</version>-->
-        <!--<relativePath/>-->
-    <!--</parent>-->
-
     <properties>
-        <druid.version>1.1.9</druid.version>
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
     </properties>
 
@@ -62,7 +54,7 @@
         <dependency>
             <groupId>com.wf2311</groupId>
             <artifactId>redis-distributed-lock-spring</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

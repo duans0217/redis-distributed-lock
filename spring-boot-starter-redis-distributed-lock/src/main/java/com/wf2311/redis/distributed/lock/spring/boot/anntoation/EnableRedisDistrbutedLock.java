@@ -1,5 +1,6 @@
-package com.wf2311.redis.distributed.lock.spring.boot.configuration;
+package com.wf2311.redis.distributed.lock.spring.boot.anntoation;
 
+import com.wf2311.redis.distributed.lock.spring.boot.configuration.DistributedLockAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

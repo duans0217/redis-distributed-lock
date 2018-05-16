@@ -7,7 +7,7 @@
     <groupId>com.wf2311</groupId>
     <artifactId>redis-distributed-lock</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
         <module>redis-distributed-lock-common</module>
         <module>redis-distributed-lock-spring</module>
@@ -16,7 +16,7 @@
 
     <description>redis分布式锁</description>
     <url>https://github.com/wf2311/redis-distributed-lock</url>
-
+    <name>redis-distributed-lock</name>
     <developers>
         <developer>
             <name>王峰</name>
@@ -65,21 +65,23 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
                 <executions>
                     <execution>
-                        <id>attach-javadoc</id>
+                        <id>attach-javadocs</id>
+                        <phase>install</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
-                    <charset>UTF-8</charset>
                     <encoding>UTF-8</encoding>
-                    <docencoding>UTF-8</docencoding>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
