@@ -59,11 +59,11 @@ public class RedisDistributedLockAspect {
             return point.proceed();
         } catch (Exception e) {
             logger.error("execute locked method occured an exception", e);
+            throw e;
         } finally {
             boolean releaseResult = distributedLock.unlock(key);
             logger.debug("release lock : " + key + (releaseResult ? " success" : " failed"));
         }
-        return null;
     }
 
 
